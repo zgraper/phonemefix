@@ -1,0 +1,5 @@
+{
+  "name": "PhonemeFix",
+  "description": "A research interface for child-speech phoneme correction and IPA-to-text translation using Wav2Vec2 and T5 models.",
+  "requestFramePermissions": []
+}
