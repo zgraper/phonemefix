@@ -64,7 +64,7 @@ const App: React.FC = () => {
     ProcessingStatus.DECODING
   ].includes(status);
 
-  const handleToggleSubrule = (category, subrule, active) => {
+  const handleToggleSubrule = (category: keyof RuleConfig, subrule: string, active: boolean) => {
     setRules(prev => {
       const updated = { ...prev };
 
@@ -72,7 +72,7 @@ const App: React.FC = () => {
 
       // Recompute selectAll
       const allActive = Object.values(updated[category].subrules)
-        .every(s => s.active);
+        .every((s: any) => s.active);
 
       updated[category].selectAll = allActive;
 
@@ -80,13 +80,13 @@ const App: React.FC = () => {
     });
   };
 
-  const handleToggleSelectAll = (category) => {
+  const handleToggleSelectAll = (category: keyof RuleConfig) => {
     setRules(prev => {
       const updated = { ...prev };
       const newState = !updated[category].selectAll;
 
       Object.values(updated[category].subrules).forEach(
-        s => (s.active = newState)
+        (s: any) => (s.active = newState)
       );
 
       updated[category].selectAll = newState;
