@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://stunning-winner-pjr7vwp9gr6p2659p-8000.app.github.dev';
+export const API_BASE_URL = 'http://localhost:8000';
 
 export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
