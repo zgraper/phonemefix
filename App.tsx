@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { FileUpload } from './components/FileUpload';
 import { RuleSettings } from './components/RuleSettings';
 import { ResultsDisplay } from './components/ResultsDisplay';
-import { RuleConfig, PipelineResponse, ProcessingStatus } from './types';
+import { RuleConfig, RulesPayload, PipelineResponse, ProcessingStatus } from './types';
 import { DEFAULT_RULES } from './constants';
 import { runPipeline } from './services/api';
 import { Mic, Play, RefreshCw, Activity, Key } from 'lucide-react';
@@ -14,12 +14,19 @@ const App: React.FC = () => {
   const [result, setResult] = useState<PipelineResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const flattenRules = (rules) => {
+  const flattenRules = (rules: RuleConfig): RulesPayload => {
     return {
-      gliding: rules.gliding.selectAll,
-      stopping: rules.stopping.selectAll,
-      cluster_reduction: rules.cluster_reduction.selectAll ?? rules.cluster_reduction.active ?? false,
-      final_consonant_deletion: rules.final_consonant_deletion.selectAll ?? rules.final_consonant_deletion.active ?? false
+      gliding: {
+        w_to_r: rules.gliding.subrules.w_to_r?.active ?? false,
+        l_to_w: rules.gliding.subrules.l_to_w?.active ?? false,
+        r_to_w: rules.gliding.subrules.r_to_w?.active ?? false
+      },
+      stopping: {
+        s_to_t: rules.stopping.subrules.s_to_t?.active ?? false,
+        z_to_d: rules.stopping.subrules.z_to_d?.active ?? false
+      },
+      cluster_reduction: rules.cluster_reduction.selectAll ?? false,
+      final_consonant_deletion: rules.final_consonant_deletion.selectAll ?? false
     };
   };
 

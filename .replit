@@ -55,6 +55,10 @@ localPort = 8000
 externalPort = 8000
 exposeLocalhost = true
 
+[[ports]]
+localPort = 38503
+externalPort = 3000
+
 [userenv]
 
 [userenv.development]

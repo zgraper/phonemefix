@@ -75,9 +75,18 @@ t5_model = AutoModelForSeq2SeqLM.from_pretrained(IPA2TEXT_ID).to(device)
 # -------------------------------------------------------------------
 # 3. Rule config + response schemas (for clarity)
 # -------------------------------------------------------------------
+class GlidingRules(BaseModel):
+    w_to_r: bool = False
+    l_to_w: bool = False
+    r_to_w: bool = False
+
+class StoppingRules(BaseModel):
+    s_to_t: bool = False
+    z_to_d: bool = False
+
 class RuleConfig(BaseModel):
-    gliding: bool
-    stopping: bool
+    gliding: GlidingRules
+    stopping: StoppingRules
     cluster_reduction: bool
     final_consonant_deletion: bool
 
@@ -130,28 +139,38 @@ def transcribe_to_ipa(audio_bytes: bytes) -> str:
 def apply_rules(raw_ipa: str, rules: RuleConfig) -> str:
     corrected = raw_ipa
 
-    # NOTE: these are simple, placeholder transforms; refine later.
-    # They are written in a way that won't crash even if patterns don't appear.
-
-    if rules.gliding:
-        # Example: child "wabbit" -> target "rabbit":
-        # If a /w/ occurs before a low front vowel /æ/ or /ɛ/, replace with /ɹ/
+    # Gliding corrections - individual rules
+    if rules.gliding.w_to_r:
+        # /w/ → /r/: child says "wabbit" for "rabbit"
         corrected = corrected.replace("w æ", "ɹ æ")
         corrected = corrected.replace("w ɛ", "ɹ ɛ")
+        corrected = corrected.replace("w ɪ", "ɹ ɪ")
+    
+    if rules.gliding.l_to_w:
+        # /l/ → /w/: child says "wook" for "look"
+        corrected = corrected.replace("w ʊ", "l ʊ")
+        corrected = corrected.replace("w ɔ", "l ɔ")
+    
+    if rules.gliding.r_to_w:
+        # /r/ → /w/: child says "wed" for "red"
+        corrected = corrected.replace("w ɛ", "ɹ ɛ")
+        corrected = corrected.replace("w ʌ", "ɹ ʌ")
 
-    if rules.stopping:
-        # Example: /s/ -> /t/ fixed to /s/, /z/ -> /d/ fixed to /z/
+    # Stopping corrections - individual rules
+    if rules.stopping.s_to_t:
+        # /s/ → /t/: child says "tun" for "sun"
         corrected = corrected.replace("t", "s")
+    
+    if rules.stopping.z_to_d:
+        # /z/ → /d/: child says "doo" for "zoo"
         corrected = corrected.replace("d", "z")
 
+    # Cluster reduction (single toggle for now)
     if rules.cluster_reduction:
-        # Very naive: try to restore "sp" clusters if we only see "p" at word onset
-        # Placeholder – in real work you'd need syllable/word boundaries.
         corrected = corrected.replace(" p", " s p")
 
+    # Final consonant deletion (placeholder)
     if rules.final_consonant_deletion:
-        # Placeholder: if word ends in vowel, try to restore a final /t/ in specific patterns
-        # (e.g., "ca" -> "cat" would be text-level, not IPA-level; this is just a stub.)
         pass
 
     return corrected

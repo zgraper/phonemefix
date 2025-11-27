@@ -1,4 +1,4 @@
-import { PipelineResponse, RuleConfig, PipelineRequest } from '../types';
+import { PipelineResponse, PipelineRequest } from '../types';
 import { API_BASE_URL } from '../constants';
 
 
