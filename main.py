@@ -56,8 +56,8 @@ app.add_middleware(
 # -------------------------------------------------------------------
 # 2. Load models once at startup
 # -------------------------------------------------------------------
-WAV2VEC2_ID = "sanchit-gandhi/wav2vec2-large-xlsr-53-espeak-cv-ft"
-IPA2TEXT_ID = "zanegraper/t5-ipa-childes-finetuned"  # your model
+WAV2VEC2_ID = "facebook/wav2vec2-lv-60-espeak-cv-ft"
+IPA2TEXT_ID = "zanegraper/t5-small-ipa-phoneme-to-text"  # your model
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -66,7 +66,9 @@ w2v_processor = AutoProcessor.from_pretrained(WAV2VEC2_ID)
 w2v_model = AutoModelForCTC.from_pretrained(WAV2VEC2_ID).to(device)
 
 print("Loading IPA→text T5 model...")
-t5_tokenizer = AutoTokenizer.from_pretrained(IPA2TEXT_ID)
+t5_tokenizer = AutoTokenizer.from_pretrained(
+    IPA2TEXT_ID,
+    use_fast=False)
 t5_model = AutoModelForSeq2SeqLM.from_pretrained(IPA2TEXT_ID).to(device)
 
 

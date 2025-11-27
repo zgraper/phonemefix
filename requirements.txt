@@ -1,0 +1,14 @@
+transformers==4.44.0
+phonemizer==3.2.1
+protobuf==4.25.3
+torch
+torchaudio
+librosa
+soundfile
+tqdm
+accelerate
+python-multipart
+
+fastapi
+uvicorn[standard]
+sentencepiece

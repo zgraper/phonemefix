@@ -5,7 +5,7 @@ import { ResultsDisplay } from './components/ResultsDisplay';
 import { RuleConfig, PipelineResponse, ProcessingStatus } from './types';
 import { DEFAULT_RULES } from './constants';
 import { runPipeline } from './services/api';
-import { Mic, Play, RefreshCw, Activity } from 'lucide-react';
+import { Mic, Play, RefreshCw, Activity, Key } from 'lucide-react';
 
 const App: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -13,6 +13,15 @@ const App: React.FC = () => {
   const [status, setStatus] = useState<ProcessingStatus>(ProcessingStatus.IDLE);
   const [result, setResult] = useState<PipelineResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const flattenRules = (rules) => {
+    return {
+      gliding: rules.gliding.selectAll,
+      stopping: rules.stopping.selectAll,
+      cluster_reduction: rules.cluster_reduction.selectAll ?? rules.cluster_reduction.active ?? false,
+      final_consonant_deletion: rules.final_consonant_deletion.selectAll ?? rules.final_consonant_deletion.active ?? false
+    };
+  };
 
   const handleRuleChange = useCallback((key: keyof RuleConfig, value: boolean) => {
     setRules(prev => ({ ...prev, [key]: value }));
@@ -26,12 +35,12 @@ const App: React.FC = () => {
     setResult(null);
 
     try {
-      // We simulate stages for better UX, though the API call is monolithic in this demo
-      // In a real WebSocket setup, these would be event driven.
-      setTimeout(() => setStatus(ProcessingStatus.PHONEMIZING), 500);
-      
-      const data = await runPipeline({ audioFile: file, rules });
-      
+      // --- Flatten the rule model ---
+      const data = await runPipeline({
+        audioFile: file,
+        rules: flattenRules(rules)
+      });
+
       setResult(data);
       setStatus(ProcessingStatus.COMPLETE);
     } catch (err) {
