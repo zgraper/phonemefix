@@ -51,6 +51,8 @@ This is a GitHub import that has been configured to run in the Replit environmen
 - ✅ Configured both frontend and backend workflows
 - ✅ Set up static deployment configuration
 - ✅ Added comprehensive .gitignore for Python
+- ✅ Added individual subrule selections for Gliding (/w/→/r/, /l/→/w/, /r/→/w/) and Stopping (/s/→/t/, /z/→/d/)
+- ✅ Updated backend to process individual correction rules instead of category-wide toggles
 
 ## Development
 
