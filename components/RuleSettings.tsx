@@ -1,5 +1,5 @@
 import React from 'react';
-import { RuleConfig } from '../types';
+import { RuleConfig, RuleCategory, RuleSubrule } from '../types';
 import { Settings } from 'lucide-react';
 
 interface RuleSettingsProps {
@@ -9,14 +9,12 @@ interface RuleSettingsProps {
     subrule: string,
     active: boolean
   ) => void;
-  onToggleSelectAll: (category: string) => void;
   disabled?: boolean;
 }
 
 export const RuleSettings: React.FC<RuleSettingsProps> = ({
   rules,
   onToggleSubrule,
-  onToggleSelectAll,
   disabled
 }) => {
   return (
@@ -29,62 +27,64 @@ export const RuleSettings: React.FC<RuleSettingsProps> = ({
       </div>
 
       <div className="p-6 space-y-6">
-        {Object.entries(rules).map(([categoryKey, category]) => (
-          <div key={categoryKey}>
-            {/* Category Header */}
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-medium text-slate-800">
-                {category.label}
-              </span>
-
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onToggleSelectAll(categoryKey)}
-                className={`text-xs ${
-                  disabled
-                    ? 'text-slate-400'
-                    : 'text-indigo-600 hover:text-indigo-700'
-                }`}
-              >
-                {category.selectAll ? 'Unselect All' : 'Select All'}
-              </button>
-            </div>
-
-            {/* Subrules */}
-            <div className="ml-4 space-y-3">
-              {Object.entries(category.subrules).map(
-                ([subKey, subrule]) => (
-                  <label
-                    key={subKey}
-                    className="flex items-center space-x-2 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      disabled={disabled}
-                      checked={subrule.active}
-                      onChange={(e) =>
-                        onToggleSubrule(
-                          categoryKey,
-                          subKey,
-                          e.target.checked
-                        )
-                      }
-                      className="w-4 h-4 text-indigo-600 bg-slate-100 border-slate-300 rounded"
-                    />
-                    <span
-                      className={`text-sm ${
-                        disabled ? 'text-slate-400' : 'text-slate-700'
-                      }`}
-                    >
-                      {subrule.label}
+        {(Object.entries(rules) as [string, RuleCategory][]).map(([categoryKey, category]) => {
+          const subruleEntries = Object.entries(category.subrules) as [string, RuleSubrule][];
+          const isSingleRule = subruleEntries.length === 1 && subruleEntries[0][0] === 'enabled';
+          
+          return (
+            <div key={categoryKey}>
+              {isSingleRule ? (
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    disabled={disabled}
+                    checked={subruleEntries[0][1].active}
+                    onChange={(e) =>
+                      onToggleSubrule(categoryKey, 'enabled', e.target.checked)
+                    }
+                    className="w-4 h-4 text-indigo-600 bg-slate-100 border-slate-300 rounded"
+                  />
+                  <span className={`font-medium ${disabled ? 'text-slate-400' : 'text-slate-800'}`}>
+                    {category.label}
+                  </span>
+                </label>
+              ) : (
+                <>
+                  <div className="mb-2">
+                    <span className="font-medium text-slate-800">
+                      {category.label}
                     </span>
-                  </label>
-                )
+                  </div>
+                  <div className="ml-4 space-y-3">
+                    {subruleEntries.map(([subKey, subrule]) => (
+                      <label
+                        key={subKey}
+                        className="flex items-center space-x-2 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          disabled={disabled}
+                          checked={subrule.active}
+                          onChange={(e) =>
+                            onToggleSubrule(categoryKey, subKey, e.target.checked)
+                          }
+                          className="w-4 h-4 text-indigo-600 bg-slate-100 border-slate-300 rounded"
+                        />
+                        <span
+                          className={`text-sm ${
+                            disabled ? 'text-slate-400' : 'text-slate-700'
+                          }`}
+                        >
+                          {subrule.label}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

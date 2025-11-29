@@ -37,7 +37,9 @@ export const DEFAULT_RULES = {
   cluster_reduction: {
     label: 'Cluster Reduction',
     selectAll: false,
-    subrules: {}
+    subrules: {
+      enabled: { label: 'Cluster Reduction', active: false }
+    }
   }
 };
 

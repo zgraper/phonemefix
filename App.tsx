@@ -25,7 +25,7 @@ const App: React.FC = () => {
         s_to_t: rules.stopping.subrules.s_to_t?.active ?? false,
         z_to_d: rules.stopping.subrules.z_to_d?.active ?? false
       },
-      cluster_reduction: rules.cluster_reduction.selectAll ?? false
+      cluster_reduction: rules.cluster_reduction.subrules.enabled?.active ?? false
     };
   };
 
@@ -86,20 +86,6 @@ const App: React.FC = () => {
     });
   };
 
-  const handleToggleSelectAll = (category: keyof RuleConfig) => {
-    setRules(prev => {
-      const updated = { ...prev };
-      const newState = !updated[category].selectAll;
-
-      Object.values(updated[category].subrules).forEach(
-        (s: any) => (s.active = newState)
-      );
-
-      updated[category].selectAll = newState;
-
-      return updated;
-    });
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -148,7 +134,6 @@ const App: React.FC = () => {
               <RuleSettings 
                 rules={rules} 
                 onToggleSubrule={handleToggleSubrule}
-                onToggleSelectAll={handleToggleSelectAll}
                 disabled={isLoading} 
               />
             </section>
