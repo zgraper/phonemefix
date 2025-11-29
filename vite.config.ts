@@ -11,6 +11,13 @@ export default defineConfig(({ mode }) => {
         hmr: {
           clientPort: 443,
         },
+        proxy: {
+          '/pipeline': {
+            target: 'http://localhost:8000',
+            changeOrigin: true,
+          },
+        },
+        allowedHosts: true,
       },
       plugins: [react()],
       define: {
