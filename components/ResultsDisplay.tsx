@@ -98,14 +98,27 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
           <div className="bg-slate-100 p-3 rounded-lg">
             <span className="text-slate-500 block text-xs mb-1">Active Rules</span>
             <div className="flex flex-wrap gap-1">
-              {Object.entries(results.rules_applied).map(([key, val]) => (
-                val && (
-                  <span key={key} className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded text-xs">
-                    {key.replace(/_/g, ' ')}
+              {(() => {
+                const activeRules: string[] = [];
+                const rules = results.rules_applied;
+                
+                if (rules.gliding?.w_to_r) activeRules.push('/w/ → /r/');
+                if (rules.gliding?.l_to_w) activeRules.push('/l/ → /w/');
+                if (rules.gliding?.r_to_w) activeRules.push('/r/ → /w/');
+                if (rules.stopping?.s_to_t) activeRules.push('/s/ → /t/');
+                if (rules.stopping?.z_to_d) activeRules.push('/z/ → /d/');
+                if (rules.cluster_reduction) activeRules.push('Cluster Reduction');
+                
+                if (activeRules.length === 0) {
+                  return <span className="text-slate-400 italic">None</span>;
+                }
+                
+                return activeRules.map((rule) => (
+                  <span key={rule} className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded text-xs">
+                    {rule}
                   </span>
-                )
-              ))}
-              {!Object.values(results.rules_applied).some(Boolean) && <span className="text-slate-400 italic">None</span>}
+                ));
+              })()}
             </div>
           </div>
         </div>
