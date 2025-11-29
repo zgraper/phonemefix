@@ -25,8 +25,7 @@ const App: React.FC = () => {
         s_to_t: rules.stopping.subrules.s_to_t?.active ?? false,
         z_to_d: rules.stopping.subrules.z_to_d?.active ?? false
       },
-      cluster_reduction: rules.cluster_reduction.selectAll ?? false,
-      final_consonant_deletion: rules.final_consonant_deletion.selectAll ?? false
+      cluster_reduction: rules.cluster_reduction.selectAll ?? false
     };
   };
 

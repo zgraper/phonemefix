@@ -88,7 +88,6 @@ class RuleConfig(BaseModel):
     gliding: GlidingRules
     stopping: StoppingRules
     cluster_reduction: bool
-    final_consonant_deletion: bool
 
 
 class PipelineResponse(BaseModel):
@@ -168,10 +167,6 @@ def apply_rules(raw_ipa: str, rules: RuleConfig) -> str:
     # Cluster reduction (single toggle for now)
     if rules.cluster_reduction:
         corrected = corrected.replace(" p", " s p")
-
-    # Final consonant deletion (placeholder)
-    if rules.final_consonant_deletion:
-        pass
 
     return corrected
 

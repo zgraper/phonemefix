@@ -13,7 +13,6 @@ export interface RuleConfig {
   gliding: RuleCategory;
   stopping: RuleCategory;
   cluster_reduction: RuleCategory;
-  final_consonant_deletion: RuleCategory;
 }
 
 export interface GlidingRulesPayload {
@@ -31,7 +30,6 @@ export interface RulesPayload {
   gliding: GlidingRulesPayload;
   stopping: StoppingRulesPayload;
   cluster_reduction: boolean;
-  final_consonant_deletion: boolean;
 }
 
 export interface PipelineRequest {

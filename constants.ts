@@ -38,17 +38,11 @@ export const DEFAULT_RULES = {
     label: 'Cluster Reduction',
     selectAll: false,
     subrules: {}
-  },
-  final_consonant_deletion: {
-    label: 'Final Consonant Deletion',
-    selectAll: false,
-    subrules: {}
   }
 };
 
 export const RULE_DESCRIPTIONS = {
   gliding: "Replaces liquids /r, l/ with glides /w, j/ based on context (e.g., 'rabbit' → 'wabbit').",
   stopping: "Replaces fricatives/affricates with stops (e.g., 'fun' → 'pun', 'very' → 'bery').",
-  cluster_reduction: "Simplifies consonant clusters to single consonants (e.g., 'spoon' → 'poon').",
-  final_consonant_deletion: "Omits the final consonant of a syllable (e.g., 'cat' → 'ca')."
+  cluster_reduction: "Simplifies consonant clusters to single consonants (e.g., 'spoon' → 'poon')."
 };
