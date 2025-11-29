@@ -153,6 +153,7 @@ class PipelineResponse(BaseModel):
     final_text: str
     rules_applied: RuleConfig
     wav2vec2_model_used: Optional[str] = None
+    t5_model_used: Optional[str] = None
 
 
 # -------------------------------------------------------------------
@@ -325,4 +326,5 @@ async def run_pipeline(
         final_text=final_text,
         rules_applied=rule_cfg,
         wav2vec2_model_used=WAV2VEC2_ID,
+        t5_model_used=IPA2TEXT_ID,
     )

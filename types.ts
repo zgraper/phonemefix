@@ -43,6 +43,7 @@ export interface PipelineResponse {
   final_text: string;
   rules_applied: RulesPayload;
   wav2vec2_model_used?: string;
+  t5_model_used?: string;
 }
 
 export enum ProcessingStatus {

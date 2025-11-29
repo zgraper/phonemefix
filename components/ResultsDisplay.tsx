@@ -90,10 +90,14 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
       {/* Details Section */}
       <div className="mt-6 pt-6 border-t border-slate-200">
         <h3 className="text-sm font-medium text-slate-500 mb-3">Metadata</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="bg-slate-100 p-3 rounded-lg">
             <span className="text-slate-500 block text-xs mb-1">Acoustic Model</span>
-            <span className="font-mono text-slate-700">{results.wav2vec2_model_used || 'Unknown'}</span>
+            <span className="font-mono text-slate-700 text-xs">{results.wav2vec2_model_used || 'Unknown'}</span>
+          </div>
+          <div className="bg-slate-100 p-3 rounded-lg">
+            <span className="text-slate-500 block text-xs mb-1">Phoneme-to-Text Model</span>
+            <span className="font-mono text-slate-700 text-xs">{results.t5_model_used || 'Unknown'}</span>
           </div>
           <div className="bg-slate-100 p-3 rounded-lg">
             <span className="text-slate-500 block text-xs mb-1">Active Rules</span>
