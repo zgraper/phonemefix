@@ -54,6 +54,9 @@ This is a GitHub import that has been configured to run in the Replit environmen
 - ✅ Added individual subrule selections for Gliding (/w/→/r/, /l/→/w/, /r/→/w/) and Stopping (/s/→/t/, /z/→/d/)
 - ✅ Updated backend to process individual correction rules instead of category-wide toggles
 - ✅ Removed Final Consonant Deletion rule from interface
+- ✅ Removed "Select All" buttons - now using individual checkboxes only
+- ✅ Improved backend with IPA normalization, token-aware rule processing, and beam search decoding
+- ✅ Added Vite proxy configuration to fix network errors
 
 ## Development
 
