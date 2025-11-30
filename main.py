@@ -16,7 +16,7 @@ from transformers import (
 )
 
 # ============================================================
-# 0. IPA utilities (normalization + boundaries + helpers)
+# 0. IPA utilities (normalization + helpers)
 # ============================================================
 
 # basic sets – extend as needed
@@ -25,7 +25,6 @@ VOWELS = {
     "æ", "ʌ", "ɪ", "ʊ", "ə", "ɛ", "ɔ", "ɑ", "ɜ", "ɒ"
 }
 NASALS = {"n", "m", "ŋ"}
-VOICELESS_STOPS = {"p", "t", "k"}
 
 
 def normalize_ipa(ipa_seq: str) -> str:
@@ -67,31 +66,6 @@ def collapse_repeats(tokens):
             continue
         out.append(t)
     return out
-
-
-# ------------------------------------------------------------
-# Boundary Heuristic (IPA segmentation approximation)
-# ------------------------------------------------------------
-def approximate_boundaries(ipa_seq: str) -> str:
-    """
-    Insert '|' boundaries in a token-aware way.
-    Heuristic: vowel or nasal followed by voiceless stop → boundary.
-    """
-    tokens = ipa_seq.split()
-    if len(tokens) <= 1:
-        return ipa_seq
-
-    out = []
-    for i, tok in enumerate(tokens[:-1]):
-        nxt = tokens[i + 1]
-        out.append(tok)
-
-        # Only consider "real" symbols, ignore existing boundaries
-        if tok in VOWELS.union(NASALS) and nxt in VOICELESS_STOPS:
-            out.append("|")
-
-    out.append(tokens[-1])
-    return " ".join(out)
 
 
 # -------------------------------------------------------------------
@@ -311,17 +285,14 @@ async def run_pipeline(
     # 1.1) Normalize IPA inventory
     normalized_ipa = normalize_ipa(raw_ipa)
 
-    # 1.2) Insert approximate boundaries
-    raw_ipa_with_bounds = approximate_boundaries(normalized_ipa)
-
     # 2) Apply phonological rules
-    corrected_ipa = apply_rules(raw_ipa_with_bounds, rule_cfg)
+    corrected_ipa = apply_rules(normalized_ipa, rule_cfg)
 
     # 3) IPA -> text
     final_text = decode_ipa_to_text(corrected_ipa)
 
     return PipelineResponse(
-        raw_ipa=raw_ipa_with_bounds,
+        raw_ipa=normalized_ipa,
         corrected_ipa=corrected_ipa,
         final_text=final_text,
         rules_applied=rule_cfg,

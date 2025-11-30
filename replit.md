@@ -56,6 +56,7 @@ This is a GitHub import that has been configured to run in the Replit environmen
 - ✅ Removed Final Consonant Deletion rule from interface
 - ✅ Removed "Select All" buttons - now using individual checkboxes only
 - ✅ Improved backend with IPA normalization, token-aware rule processing, and beam search decoding
+- ✅ Removed heuristic boundary approximation (research showed it worsened results)
 - ✅ Added Vite proxy configuration to fix network errors
 
 ## Development
