@@ -1,12 +1,14 @@
 # PhonemeFix - Child Speech Correction & Translation Research
 
 ## Overview
-PhonemeFix is a full-stack AI application for analyzing and correcting child speech patterns. It uses machine learning models to:
+PhonemeFix is a full-stack AI application for analyzing and correcting child speech patterns, developed as part of **Zane Graper's Capstone Project** for the **Master of Science in Artificial Intelligence** degree at the **University of the Cumberlands**.
+
+The application uses machine learning models to:
 - Convert audio to phonemes using wav2vec2
 - Apply phonological correction rules for common child speech patterns
 - Translate corrected phonemes back to text using T5 models
 
-This is a GitHub import that has been configured to run in the Replit environment.
+> **Note:** This application is for research purposes only.
 
 **Current Status**: Fully functional and running in development mode.
 
@@ -58,6 +60,8 @@ This is a GitHub import that has been configured to run in the Replit environmen
 - ✅ Improved backend with IPA normalization, token-aware rule processing, and beam search decoding
 - ✅ Removed heuristic boundary approximation (research showed it worsened results)
 - ✅ Added Vite proxy configuration to fix network errors
+- ✅ Added phoneme-to-text model display to Metadata section
+- ✅ Updated README.md for GitHub repository with academic context
 
 ## Development
 
