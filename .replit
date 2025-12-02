@@ -1,10 +1,11 @@
 modules = ["nodejs-20", "web", "python-3.11"]
 [agent]
 expertMode = true
+integrations = ["github:1.0.0"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["espeak", "espeak-ng"]
+packages = ["espeak", "espeak-ng", "ffmpeg-full", "libsndfile", "pkg-config"]
 
 [workflows]
 runButton = "Project"
