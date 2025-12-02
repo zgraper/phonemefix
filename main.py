@@ -85,7 +85,7 @@ app.add_middleware(
 # 2. Load models once at startup
 # -------------------------------------------------------------------
 WAV2VEC2_ID = "facebook/wav2vec2-lv-60-espeak-cv-ft"
-IPA2TEXT_ID = "zanegraper/t5-small-ipa-phoneme-to-text"  # your model
+IPA2TEXT_ID = "zanegraper/t5-ipa-to-text"  # your model
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
